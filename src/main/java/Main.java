@@ -77,6 +77,9 @@ public class Main implements Commands {
                 command = -1;
             }
             switch (command) {
+                case LOGOUT:
+                    isRun = false;
+                    break;
                 case MY_LIST:
                     myList();
                     break;

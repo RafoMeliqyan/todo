@@ -52,17 +52,20 @@ public class UserManager {
         preparedStatement.executeUpdate();
     }
 
-    public List<User> getUser(String email, String password) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet resultSetEmail = statement.executeQuery("SELECT * FROM user WHERE email = ?");
-        ResultSet resultSetPassword = statement.executeQuery("SELECT * FROM user WHERE password = ?");
-        List<User> users = new LinkedList<>();
-        while (resultSetEmail.next() && resultSetPassword.next()) {
+    public User getUser(String email, String password) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE email = ? and password = ?", Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1,email);
+        statement.setString(2,password);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
             User user = new User();
-            user.setEmail(resultSetEmail.getString("email"));
-            user.setPassword(resultSetPassword.getString("password"));
-            users.add(user);
+            user.setName(resultSet.getString("name"));
+            user.setName(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            return user;
         }
-        return users;
+        return null;
     }
 }
