@@ -1,5 +1,5 @@
 package status;
 
-public enum Status {
+public enum TodoStatus {
     TODO,IN_PROGRESS,FINISHED
 }
